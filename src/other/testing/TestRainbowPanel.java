@@ -1,7 +1,6 @@
 package other.testing;
 
 import java.awt.Color;
-import java.awt.Dimension;
 
 import javax.swing.JPanel;
 
@@ -29,7 +28,7 @@ public class TestRainbowPanel extends JPanel {
 				
 				hue = (hue % 360) + 1;
 				
-				try {Thread.sleep(25);} catch(Exception e) {}
+				try { Thread.sleep(25);} catch(Exception e) {}
 			}
 		}).start();
 	}

@@ -1,5 +1,6 @@
 package main;
 
+import other.bouncing.BouncingDemoWindow;
 import other.testing.*;
 
 /**
@@ -10,7 +11,7 @@ import other.testing.*;
 public class APCSGUI {
 	public static void main(String[] args) {
 		//The interface is here to speed up changes to what we're running
-		Runnable rw = new TestWindowOne();
+		Runnable rw = new BouncingDemoWindow();
 		
 		rw.run();
 	}

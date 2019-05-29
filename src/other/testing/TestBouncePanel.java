@@ -1,8 +1,10 @@
 package other.testing;
 
+import java.awt.BasicStroke;
 import java.awt.Color;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
+import java.util.ArrayList;
 
 import javax.swing.JPanel;
 
@@ -13,15 +15,18 @@ import javax.swing.JPanel;
  */
 @SuppressWarnings("serial")
 public class TestBouncePanel extends JPanel {
-	private int x = 100, //top left of the square
-				y = 100,
-				vel = 10,
-				xSize = 10,
-				ySize = 10;
+	private double x = 100, //top left of the square
+				   y = 100,
+				   vel = 10,
+				   xSize = 10,
+				   ySize = 10;
 	
-	private long fps = 10;
+	private long fps = 90;
 	
-	private double dir = Math.PI / 4;
+	private double dir = 0.1;
+	
+	ArrayList<Double> xPoints = new ArrayList<>(),
+					  yPoints = new ArrayList<>();
 	
 	/**
 	 * b o u n c e
@@ -36,11 +41,14 @@ public class TestBouncePanel extends JPanel {
 		new Thread(() -> {
 			
 			while(true) {
+				xPoints.add(x + (xSize / 2));
+				yPoints.add(y + (ySize / 2));
+				
 				//Update pos
 				x += Math.cos(dir) * vel;
 				y -= Math.sin(dir) * vel;
 				
-				System.out.printf("(%d, %d)\t%f%n", x, y, dir);
+				//System.out.printf("%f%n", dir);
 				
 				//collisions
 				if(x < 0) {
@@ -104,6 +112,11 @@ public class TestBouncePanel extends JPanel {
 		Graphics2D g = (Graphics2D) g1d;
 		
 		g.setColor(Color.black);
-		g.fillRect(x, y, xSize, ySize);
+		g.fillRect((int) x, (int) y, (int) xSize, (int) ySize);
+		
+		g.setStroke(new BasicStroke(2f));
+		for(int i = 0; i < xPoints.size() - 1; i++) {
+			g.drawLine((int) (double) xPoints.get(i), (int) (double) yPoints.get(i), (int) (double) xPoints.get(i + 1), (int) (double) yPoints.get(i + 1));
+		}
 	}
 }

@@ -60,7 +60,24 @@ public class Border implements Collider {
 				return 0;
 			
 			default:
-				return Math.PI;
+				return (1d / 2d) * Math.PI;
+		}
+	}
+	
+	@Override
+	public String toString() {
+		switch(direction) {
+			case 0:
+				return "North Border";
+			
+			case 1:
+				return "South Border";
+			
+			case 2:
+				return "East Border";
+			
+			default:
+				return "West Border";
 		}
 	}
 }

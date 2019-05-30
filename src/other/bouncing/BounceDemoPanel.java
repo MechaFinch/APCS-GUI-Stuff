@@ -28,6 +28,11 @@ public class BounceDemoPanel extends JPanel {
 		setBackground(Color.white);
 	}
 	
+	public void updateObjects(ArrayList<Collider> cols, RectObj r) {
+		colliders = cols;
+		this.r = r;
+	}
+	
 	@Override
 	public void paintComponent(Graphics g1d) {
 		super.paintComponent(g1d);

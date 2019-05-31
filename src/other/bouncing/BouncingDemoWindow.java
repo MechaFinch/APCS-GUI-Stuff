@@ -21,14 +21,16 @@ public class BouncingDemoWindow implements Runnable {
 	
 	Random rand = new Random();
 	
-	final int fps = 30,
-			  accuracyLevel = 1;
+	int fps = 30,
+		accuracyLevel;
 	
 	final double xGravity = 0,
 				 yGravity = 0;
 	
 	public void run() {
-		rect = new RectObj(100, 150, rand.nextDouble() * Math.PI * 2, 10, true);
+		rect = new RectObj(100, 150, rand.nextDouble() * Math.PI * 2, 25, true);
+		
+		accuracyLevel = (int) Math.ceil(rect.getVelocity() / Math.max(rect.getWidth(), rect.getHeight()));
 		
 		JFrame frame = new JFrame();
 		frame.setVisible(true);
@@ -60,8 +62,8 @@ public class BouncingDemoWindow implements Runnable {
 				rect.setComponents(rect.getXComponent() + xGravity, rect.getYComponent() + yGravity);
 				
 				//Update position
-				double delX = rect.getVelocity() * Math.cos(rect.getDirection()),
-					   delY = rect.getVelocity() * Math.sin(rect.getDirection());
+				double delX = rect.getXComponent(),
+					   delY = rect.getYComponent();
 				
 				//Increased accuracy
 				outer:
@@ -96,6 +98,8 @@ public class BouncingDemoWindow implements Runnable {
 							
 							//Save the collider
 							lastCollider = c;
+							
+							rect.setComponents(rect.getXComponent() * 0.8, rect.getYComponent() * 0.8);
 							
 							break outer;
 						}

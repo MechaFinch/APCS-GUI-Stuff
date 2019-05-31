@@ -11,22 +11,34 @@ import java.awt.Graphics2D;
  */
 public class LineCollider implements Collider {
 	
-	private static final float DEFAULT_THICCNESS = 1.5f;
+	private static final float DEFAULT_THICCNESS = 1.25f;
+	
+	private static final Color DEFAULT_COLOR = Color.black;
 	
 	private int x1, x2, y1, y2;
 	
-	private float thiccness;
+	private BasicStroke stroke;
+	
+	private Color color;
 	
 	/**
-	 * Position Constructor
+	 * Full Constructor
 	 * 
 	 * @param x1 First X pos
 	 * @param y1 First Y pos
 	 * @param x2 Second X pos
 	 * @param y2 Second Y pos
+	 * @param thiccness The wieght of the line
+	 * @param color The color of the line
 	 */
-	public LineCollider(int x1, int y1, int x2, int y2) {
-		this(x1, y1, x2, y2, DEFAULT_THICCNESS);
+	public LineCollider(int x1, int y1, int x2, int y2, float thiccness, Color color) {
+		this.x1 = x1;
+		this.y1 = y1;
+		this.x2 = x2;
+		this.y2 = y2;
+		this.color = color;
+		
+		stroke = new BasicStroke(thiccness);
 	}
 	
 	/**
@@ -39,11 +51,32 @@ public class LineCollider implements Collider {
 	 * @param thiccness The weight of the line
 	 */
 	public LineCollider(int x1, int y1, int x2, int y2, float thiccness) {
-		this.thiccness = thiccness;
-		this.x1 = x1;
-		this.y1 = y1;
-		this.x2 = x2;
-		this.y2 = y2;
+		this(x1, y1, x2, y2, thiccness, DEFAULT_COLOR);
+	}
+	
+	/**
+	 * Position & Color Constructor
+	 * 
+	 * @param x1 First X pos
+	 * @param y1 First Y pos
+	 * @param x2 Second X pos
+	 * @param y2 Second Y pos
+	 * @param color The color of the line
+	 */
+	public LineCollider(int x1, int y1, int x2, int y2, Color color) {
+		this(x1, y1, x2, y2, DEFAULT_THICCNESS, color);
+	}
+	
+	/**
+	 * Position Constructor
+	 * 
+	 * @param x1 First X pos
+	 * @param y1 First Y pos
+	 * @param x2 Second X pos
+	 * @param y2 Second Y pos
+	 */
+	public LineCollider(int x1, int y1, int x2, int y2) {
+		this(x1, y1, x2, y2, DEFAULT_THICCNESS, DEFAULT_COLOR);
 	}
 	
 	@Override
@@ -58,8 +91,8 @@ public class LineCollider implements Collider {
 
 	@Override
 	public void paint(Graphics2D g) {
-		g.setColor(Color.black);
-		g.setStroke(new BasicStroke(thiccness));
+		g.setColor(color);
+		g.setStroke(stroke);
 		g.drawLine(x1, y1, x2, y2);
 	}
 	

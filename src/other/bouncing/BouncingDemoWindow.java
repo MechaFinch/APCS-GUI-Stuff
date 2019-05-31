@@ -28,9 +28,11 @@ public class BouncingDemoWindow implements Runnable {
 				 yGravity = 0;
 	
 	public void run() {
-		rect = new RectObj(100, 150, rand.nextDouble() * Math.PI * 2, 25, true);
+		rect = new RectObj(100, 150, rand.nextDouble() * Math.PI * 2, 10, true);
 		
 		accuracyLevel = (int) Math.ceil(rect.getVelocity() / Math.max(rect.getWidth(), rect.getHeight()));
+		
+		System.out.printf("Running collision detection %d times per tick.%n", accuracyLevel);
 		
 		JFrame frame = new JFrame();
 		frame.setVisible(true);
@@ -46,10 +48,15 @@ public class BouncingDemoWindow implements Runnable {
 		colliders.add(new Border(3, 500, 500));
 		
 		//owo things to bounce off of
+		
+		/*
 		colliders.add(new LineCollider(100, 100, 200, 200));
 		colliders.add(new LineCollider(200, 200, 100, 300));
 		colliders.add(new LineCollider(400, 400, 420, 500));
 		colliders.add(new LineCollider(300, 350, 100, 300));
+		*/
+		
+		colliders.add(new RectangleCollider(200, 200, 100, 100));
 		
 		pan = new BounceDemoPanel(colliders, rect);
 		
@@ -99,7 +106,7 @@ public class BouncingDemoWindow implements Runnable {
 							//Save the collider
 							lastCollider = c;
 							
-							rect.setComponents(rect.getXComponent() * 0.8, rect.getYComponent() * 0.8);
+							//rect.setComponents(rect.getXComponent() * 0.8, rect.getYComponent() * 0.8);
 							
 							break outer;
 						}

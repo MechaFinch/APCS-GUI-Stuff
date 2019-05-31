@@ -101,7 +101,7 @@ public class RectObj {
 			xPoses.add((int) (x + (width / 2)));
 			yPoses.add((int) (y + (height / 2)));
 			
-			if(xPoses.size() > 250) {
+			if(xPoses.size() > 100) {
 				xPoses.remove(0);
 				yPoses.remove(0);
 			}

@@ -2,6 +2,7 @@ package other.bouncing.objects;
 
 import java.awt.Color;
 import java.awt.Graphics2D;
+import java.util.ArrayList;
 
 /**
  * A rectangle object that moves and bounces around the screen
@@ -12,9 +13,14 @@ public class RectObj {
 	private double x,
 				   y,
 				   width,
-				   height,
-				   dir,
-				   vel;
+				   height;
+	
+	private Vector velocity;
+	
+	private boolean trail;
+	
+	private ArrayList<Integer> xPoses = new ArrayList<>(),
+							   yPoses = new ArrayList<>();
 	
 	/**
 	 * Full Constructor
@@ -25,14 +31,29 @@ public class RectObj {
 	 * @param height Height
 	 * @param dir Direction (Radians)
 	 * @param vel Velocity
+	 * @param trail Whether or not to show a trail
 	 */
-	public RectObj(double x, double y, double width, double height, double dir, double vel) {
+	public RectObj(double x, double y, double width, double height, double dir, double vel, boolean trail) {
 		this.x = x;
 		this.y = y;
 		this.width = width;
 		this.height = height;
-		this.dir = dir;
-		this.vel = vel;
+		this.trail = trail;
+		
+		velocity = new Vector(dir, vel, true);
+	}
+	
+	/**
+	 * Position/Velocity/Trail Constructor
+	 * 
+	 * @param x X position
+	 * @param y Y position
+	 * @param dir Direction (Radians)
+	 * @param vel Velocity
+	 * @param trail Whether or not to show a trail
+	 */
+	public RectObj(double x, double y, double dir, double vel, boolean trail) {
+		this(x, y, 10, 10, dir, vel, trail);
 	}
 	
 	/**
@@ -44,12 +65,18 @@ public class RectObj {
 	 * @param vel Velocity
 	 */
 	public RectObj(double x, double y, double dir, double vel) {
-		this(x, y, 10, 10, dir, vel);
+		this(x, y, 10, 10, dir, vel, false);
 	}
 	
-	public void paint(Graphics2D g) {
-		g.setColor(Color.black);
-		g.fillRect((int) x, (int) y, (int) width, (int) height); 
+	/**
+	 * Velocity/Trail Constructor
+	 * 
+	 * @param dir Direction (Radians)
+	 * @param vel Velocity
+	 * @param trail Whether or not to have a trail
+	 */
+	public RectObj(double dir, double vel, boolean trail) {
+		this(0, 0, 10, 10, dir, vel, trail);
 	}
 	
 	/**
@@ -59,7 +86,32 @@ public class RectObj {
 	 * @param vel Velocity
 	 */
 	public RectObj(double dir, double vel) {
-		this(0, 0, 10, 10, dir, vel);
+		this(0, 0, 10, 10, dir, vel, false);
+	}
+	
+	/**
+	 * Displays the rectangle
+	 * 
+	 * @param g Graphics2D object to use
+	 */
+	public void paint(Graphics2D g) {
+		g.setColor(Color.black);
+		
+		if(trail) {
+			xPoses.add((int) (x + (width / 2)));
+			yPoses.add((int) (y + (height / 2)));
+			
+			if(xPoses.size() > 250) {
+				xPoses.remove(0);
+				yPoses.remove(0);
+			}
+			
+			for(int i = 0; i < xPoses.size() - 1; i++) {
+				g.drawLine(xPoses.get(i), yPoses.get(i), xPoses.get(i + 1), yPoses.get(i + 1));
+			}
+		}
+		
+		g.fillRect((int) x, (int) y, (int) width, (int) height); 
 	}
 	
 	/**
@@ -104,7 +156,7 @@ public class RectObj {
 	 * @param d The new direction (in Radians)
 	 */
 	public void setDirection(double d) {
-		dir = d;
+		velocity.setAngle(d);
 	}
 	
 	/**
@@ -113,7 +165,17 @@ public class RectObj {
 	 * @param v The new velocity
 	 */
 	public void setVelocity(double v) {
-		vel = v;
+		velocity.setMagnitude(v);
+	}
+	
+	/**
+	 * Sets the components of the velocity
+	 * 
+	 * @param x The X component
+	 * @param y The Y component
+	 */
+	public void setComponents(double x, double y) {
+		velocity.setComponents(x, y);
 	}
 	
 	/**
@@ -126,12 +188,30 @@ public class RectObj {
 	}
 	
 	/**
+	 * Gets the X component of the velocity
+	 * 
+	 * @return The velocity's X component
+	 */
+	public double getXComponent() {
+		return velocity.getX();
+	}
+	
+	/**
 	 * Gets they Y position
 	 * 
 	 * @return The Y position
 	 */
 	public double getY() {
 		return y;
+	}
+	
+	/**
+	 * Gets the Y component of the velocity
+	 * 
+	 * @return The velocity's Y component
+	 */
+	public double getYComponent() {
+		return velocity.getY();
 	}
 	
 	/**
@@ -158,7 +238,7 @@ public class RectObj {
 	 * @return The direction (Radians)
 	 */
 	public double getDirection() {
-		return dir;
+		return velocity.getAngle();
 	}
 	
 	/**
@@ -167,7 +247,7 @@ public class RectObj {
 	 * @return The velocity
 	 */
 	public double getVelocity() {
-		return vel;
+		return velocity.getMagnitude();
 	}
 }
 

@@ -25,7 +25,7 @@ public class BounceDemoPanel extends JPanel {
 		colliders = cols;
 		this.r = r;
 		
-		setBackground(Color.white);
+		setBackground(Color.lightGray);
 	}
 	
 	public void updateObjects(ArrayList<Collider> cols, RectObj r) {

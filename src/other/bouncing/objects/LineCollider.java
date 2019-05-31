@@ -48,7 +48,7 @@ public class LineCollider implements Collider {
 	
 	@Override
 	public boolean isColliding(RectObj rect) {
-		return false;
+		return CollisionUtils.lineRect(x1, y1, x2, y2, rect.getX(), rect.getY(), rect.getWidth(), rect.getHeight());
 	}
 
 	@Override

@@ -49,14 +49,21 @@ public class BouncingDemoWindow implements Runnable {
 		
 		//owo things to bounce off of
 		
-		/*
-		colliders.add(new LineCollider(100, 100, 200, 200));
-		colliders.add(new LineCollider(200, 200, 100, 300));
-		colliders.add(new LineCollider(400, 400, 420, 500));
-		colliders.add(new LineCollider(300, 350, 100, 300));
-		*/
-		
 		colliders.add(new RectangleCollider(200, 200, 100, 100));
+		colliders.add(new RectangleCollider(0, 0, 50, 50));
+		colliders.add(new RectangleCollider(450, 450, 50, 50));
+		colliders.add(new RectangleCollider(0, 450, 50, 50));
+		colliders.add(new RectangleCollider(450, 0, 50, 50));
+		
+		colliders.add(new LineCollider(150, 150, 200, 200));
+		colliders.add(new LineCollider(300, 200, 350, 150));
+		colliders.add(new LineCollider(150, 350, 200, 300));
+		colliders.add(new LineCollider(300, 300, 350, 350));
+		
+		colliders.add(new LineCollider(50, 50, 100, 100));
+		colliders.add(new LineCollider(400, 400, 450, 450));
+		colliders.add(new LineCollider(50, 450, 100, 400));
+		colliders.add(new LineCollider(400, 100, 450, 50));
 		
 		pan = new BounceDemoPanel(colliders, rect);
 		

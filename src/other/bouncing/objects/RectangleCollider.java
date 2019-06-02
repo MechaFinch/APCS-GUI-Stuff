@@ -119,6 +119,7 @@ public class RectangleCollider implements Collider {
 			   rh = rect.getHeight();
 		
 		//Find which are intersecting
+		//our side, their side
 		boolean leftTop = CollisionUtils.lineLine(x, y, x, y + h, rx, ry, rx + rw, ry),
 				leftBottom = CollisionUtils.lineLine(x, y, x, y + h, rx, ry + rh, rx + rw, ry + rh),
 				rightTop = CollisionUtils.lineLine(x + w, y, x + w, y + h, rx, ry, rx + rw, ry),
@@ -127,6 +128,48 @@ public class RectangleCollider implements Collider {
 				topRight = CollisionUtils.lineLine(x, y, x + w, y, rx + rw, ry, rx + rw, ry + rh),
 				bottomLeft = CollisionUtils.lineLine(x, y + h, x + w, y + h, rx, ry, rx, ry + rh),
 				bottomRight = CollisionUtils.lineLine(x, y + h, x + w, y + h, rx + rw, ry, rx + rw, ry + rh);
+		
+		//System.out.printf("LT %s LB %s RT %s RB %s TL %s TR %s BL %s BR %s ", leftTop, leftBottom, rightTop, rightBottom, topLeft, topRight, bottomLeft, bottomRight);
+		
+		//Figure out what side is bouncing
+		//Top left corner
+		if(leftBottom && topRight) {
+			//System.out.println("(top left)");
+			
+			if((ry + rh) - y < (rx + rw) - x) return 0;
+			return Math.PI / 2;
+		}
+		
+		//Top right corner
+		if(topLeft && rightBottom) {
+			//System.out.println("(top right)");
+			
+			if((ry + rh) - y < (x + w) - rx) return 0;
+			return Math.PI / 2;
+		}
+		
+		//Bottom left corner
+		if(leftTop && bottomRight) {
+			//System.out.println("(bottom left)");
+			
+			if((y + h) - ry < (rx + rw) - x) return 0;
+			return Math.PI / 2;
+		}
+		
+		//Bottom right corner
+		if(bottomLeft && rightTop) {
+			//System.out.println("(bottom right)");
+			
+			if((y + h) - ry < (x + w) - rx) return 0;
+			return Math.PI / 2;
+		}
+		
+		//System.out.println("(side)");
+		
+		//Left or right side
+		if((leftTop && leftBottom) || (rightTop && rightBottom)) return Math.PI / 2;
+		
+		return 0;
 	}
 
 	@Override
